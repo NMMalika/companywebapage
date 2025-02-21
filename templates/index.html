@@ -8,8 +8,10 @@
     <title>NimcityEnterprisesTech</title>
 </head>
 <body>
-    {% for product in products %}
-        <h1>product:{{ product.name}}, Price:{{product.price}}</h1>
-    {% endfor %}
+    {% if can_vote == True%}
+            {% for name in names%}
+                <h1>hi,{{name}}you are eligible to vote</h1>
+            {% endfor %}
+    {% endif %}
 </body>
 </html>
