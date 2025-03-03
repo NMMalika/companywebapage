@@ -1,14 +1,20 @@
-from django.shortcuts import render
-from app.models import GeneralInfo,Service
+import os
+from django.shortcuts import render,redirect
+from django.core.mail import send_mail
+from app.models import GeneralInfo,Service,Testimonial,FAQs
+from django.conf import settings
+
 
 # Create your views here.
 def index(request):
      general_info = GeneralInfo.objects.first()
      
      services=Service.objects.all()
+     
+     testimonials=Testimonial.objects.all()
+     
+     faqs=FAQs.objects.all()
     
-     
-     
      context={
           "company_name":general_info.company_name,
           "location":general_info.location,
@@ -22,6 +28,29 @@ def index(request):
          
          
            "services":services,
+           "testimonials":testimonials,
+           "faqs":faqs,
      }
      
      return render(request, "index.html", context)
+
+def contact_form(request):
+     
+     if request.method =="POST":
+        print ("\nuser has submitted the form\n")
+        print (f"request.POST: {request.POST}")
+        name=request.POST.get("name")
+        email=request.POST.get("email")
+        subject=request.POST.get("subject")
+        message=request.POST.get("message")
+        
+     send_mail(
+          subject=subject,
+          message=f"Name: {name}\nEmail: {email}\nMessage: {message}",
+          from_email=settings.EMAIL_HOST_USER,
+          recipient_list=[settings.EMAIL_HOST_USER],
+          fail_silently=False,
+     )
+     return redirect("home")
+
+
