@@ -22,4 +22,5 @@ urlpatterns = [
     path("admin/", admin.site.urls),
     path("", index,name="home"),
     path("contact/", contact_form,name="contact_form"),
+    
 ]
