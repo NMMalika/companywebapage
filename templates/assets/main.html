@@ -39,6 +39,11 @@
 </head>
 
 <body>
+  {% for message in messages %}
+    <div class="alert alert-{{message.tags}}">
+      {{message}}
+    </div>
+  {% endfor %}
 {% include 'assets/header.html' %}
   <!-- ======= Hero Section ======= -->
   <section id="hero" class="hero">

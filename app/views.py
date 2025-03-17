@@ -65,10 +65,10 @@ def contact_form(request):
                fail_silently=False,
          )
      except Exception as e:
-          print(f"Error sending email: {e}")
+          messages.error(request, "An error occurred while sending the email")  
           return redirect("home")
      else:
-          print("Email sent successfully")
+          messages.success(request, "Email sent successfully")
      return redirect("home")
 
 
