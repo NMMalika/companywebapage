@@ -1,5 +1,10 @@
 from django.contrib import admin
-from app.models import GeneralInfo,Service,Testimonial,FAQs
+from app.models import GeneralInfo,Service,Testimonial,FAQs,ContactFormLog,Blog
+
+admin.site.site_header = 'Nimcity Enterprises Admin'
+admin.site.site_title = 'Nimcity Enterprises Admin'
+admin.site.index_title = 'Nimcity Enterprises Admin Dashboard'
+
 
 @admin.register(GeneralInfo)
 class GeneralInfoAdmin(admin.ModelAdmin):
@@ -25,3 +30,27 @@ class TestimonialAdmin(admin.ModelAdmin):
 class FAQsAdmin(admin.ModelAdmin):
     list_display = ['question','answer']
     search_fields = ['question','answer']
+    
+@admin.register(ContactFormLog)
+class ContactFormLogAdmin(admin.ModelAdmin):
+    list_display = ['name','email','subject','is_success','is_error','action_time']
+    search_fields = ['name','email','subject','message']
+    
+    def has_add_permission(self, request):
+        return False
+    def has_change_permission(self, request, obj=None):
+        return False
+    def has_delete_permission(self, request, obj=None):
+        return False
+@admin.register(Blog)
+class BlogAdmin(admin.ModelAdmin):
+    list_display = ['blog_image','title','category','author','content','created_at']
+    search_fields = ['title','category','author','content']
+    list_filter = ['category','author','created_at']
+    date_hierarchy = 'created_at'
+    list_per_page = 5
+    list_max_show_all = 10
+    list_editable = ['category','author']
+    
+
+        
