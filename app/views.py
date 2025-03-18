@@ -60,7 +60,7 @@ def contact_form(request):
                subject=subject,
                message=f"Name: {name}\nEmail: {email}\nMessage: {message}",
                html_message=html_content,
-              #from_email=settings.EMAIL_HOST_USER,
+              from_email=settings.EMAIL_HOST_USER,
                recipient_list=[settings.EMAIL_HOST_USER],
                fail_silently=False,
          )
@@ -68,7 +68,7 @@ def contact_form(request):
           messages.error(request, "An error occurred while sending the email")  
           return redirect("home")
      else:
-          messages.success(request, "Email sent successfully")
+          messages.success(request, "Email has been sent successfully")
      return redirect("home")
 
 
