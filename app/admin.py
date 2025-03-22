@@ -1,5 +1,5 @@
 from django.contrib import admin
-from app.models import GeneralInfo,Service,Testimonial,FAQs,ContactFormLog,Blog
+from app.models import GeneralInfo,Service,Testimonial,FAQs,ContactFormLog,Blog,Author
 
 admin.site.site_header = 'Nimcity Enterprises Admin'
 admin.site.site_title = 'Nimcity Enterprises Admin'
@@ -42,6 +42,16 @@ class ContactFormLogAdmin(admin.ModelAdmin):
         return False
     def has_delete_permission(self, request, obj=None):
         return False
+@admin.register(Author)
+class AuthorAdmin(admin.ModelAdmin):
+    list_display = ['first_name','email','phone','joined_date']
+    search_fields = ['first_name','email','phone']
+    list_filter = ['joined_date']
+    date_hierarchy = 'joined_date'
+    list_per_page = 5
+    list_max_show_all = 10
+    list_editable = ['email','phone']
+    
 @admin.register(Blog)
 class BlogAdmin(admin.ModelAdmin):
     list_display = ['blog_image','title','category','author','content','created_at']

@@ -72,7 +72,7 @@ class Author(models.Model):
     joined_date=models.DateTimeField(auto_now_add=True)
     
     def __str__(self):
-        return self.name
+        return self.first_name
     
 class Blog(models.Model):
     blog_image=models.CharField(max_length=100, blank=True, null=True)

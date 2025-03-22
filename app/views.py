@@ -1,7 +1,7 @@
 import os
 from django.shortcuts import render,redirect
 from django.core.mail import send_mail
-from app.models import GeneralInfo,Service,Testimonial,FAQs,ContactFormLog
+from app.models import GeneralInfo,Service,Testimonial,FAQs,ContactFormLog,Blog,Author
 from django.conf import settings
 from django.template.loader import render_to_string
 from django.contrib import messages
@@ -17,6 +17,9 @@ def index(request):
      testimonials=Testimonial.objects.all()
      
      faqs=FAQs.objects.all()
+     
+     recent_blogs=Blog.objects.all().order_by('-created_at')[:3]
+     
     
      context={
           "company_name":general_info.company_name,
@@ -33,6 +36,7 @@ def index(request):
            "services":services,
            "testimonials":testimonials,
            "faqs":faqs,
+           "recent_blogs":recent_blogs,
      }
      
      return render(request, "index.html", context)
@@ -79,5 +83,10 @@ def contact_form(request):
           messages.success(request, "Email has been sent successfully")
           ContactFormLog.objects.create(name=name,email=email,subject=subject,message=message,is_success=is_success,is_error=is_error,error_message=error_message,action_time=timezone.now())
      return redirect("home")
+def blog_detail(request,blog_id):
+     blog=Blog.objects.get(id=blog_id)
+     
+     context={}
+     return render(request, "blog_detail.html", context)
 
 
