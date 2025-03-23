@@ -86,7 +86,9 @@ def contact_form(request):
 def blog_detail(request,blog_id):
      blog=Blog.objects.get(id=blog_id)
      
-     context={}
+     context={
+          "blog":blog,
+     }
      return render(request, "blog_detail.html", context)
 
 
