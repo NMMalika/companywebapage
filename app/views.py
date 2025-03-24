@@ -80,14 +80,19 @@ def contact_form(request):
           return redirect("home")
      else:
           is_success=True
-          messages.success(request, "Email has been sent successfully")
+          messages.success(request, "Emairecent_blogs:Blog.objects.all().order_by('-created_at')[:2]l has been sent successfully")
           ContactFormLog.objects.create(name=name,email=email,subject=subject,message=message,is_success=is_success,is_error=is_error,error_message=error_message,action_time=timezone.now())
      return redirect("home")
+
 def blog_detail(request,blog_id):
      blog=Blog.objects.get(id=blog_id)
      
+     recent_blogs=Blog.objects.all().exclude(id=blog_id).order_by('-created_at')[:3]
+     
      context={
           "blog":blog,
+          "recent_blogs":recent_blogs,
+          
      }
      return render(request, "blog_detail.html", context)
 
