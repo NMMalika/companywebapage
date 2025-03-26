@@ -6,6 +6,7 @@ from django.conf import settings
 from django.template.loader import render_to_string
 from django.contrib import messages
 from django.utils import timezone
+from django.core.paginator import Paginator
 
 
 # Create your views here.
@@ -97,8 +98,11 @@ def blog_detail(request,blog_id):
      return render(request, "blog_detail.html", context)
 def blogs(request):
      all_blogs=Blog.objects.all().order_by('-created_at')
+     paginator=Paginator(all_blogs,2)
+     blogs= paginator.page(1)
+     page_number=1
      context={
-          "all_blogs":all_blogs,
+          "blogs":all_blogs,
                
           }
      return render(request, "blogs.html",context)    
