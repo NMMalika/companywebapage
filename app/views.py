@@ -97,14 +97,13 @@ def blog_detail(request,blog_id):
      }
      return render(request, "blog_detail.html", context)
 def blogs(request):
-     all_blogs=Blog.objects.all().order_by('-created_at')
-     paginator=Paginator(all_blogs,2)
-     blogs= paginator.page(1)
-     page_number=1
-     context={
-          "blogs":all_blogs,
-               
-          }
-     return render(request, "blogs.html",context)    
+    all_blogs = Blog.objects.all().order_by('-created_at')  # Fetch all blogs
 
+    paginator = Paginator(all_blogs, 2)  # Use all_blogs, not blogs
+    page_number = request.GET.get("page")  # Get page number from URL
+    blogs = paginator.get_page(page_number)  # Paginate the blogs
 
+    context = {
+        "blogs": blogs,  # Use the paginated blogs
+    }
+    return render(request, "blogs.html", context)
