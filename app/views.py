@@ -99,10 +99,10 @@ def blog_detail(request,blog_id):
 def blogs(request):
     all_blogs = Blog.objects.all().order_by('-created_at')  # Fetch all blogs
 
-    paginator = Paginator(all_blogs, 2)  
-    page_number = request.GET.get("page")  
+    paginator = Paginator(all_blogs, 3)  
+    page = request.GET.get("page")  
     try:
-        blogs = paginator.page(page_number)  # Get the blogs for the requested page
+        blogs = paginator.page(page)  # Get the blogs for the requested page
     except PageNotAnInteger:
         blogs = paginator.page(1)
     except EmptyPage:
