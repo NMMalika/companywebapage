@@ -6,7 +6,7 @@ from django.conf import settings
 from django.template.loader import render_to_string
 from django.contrib import messages
 from django.utils import timezone
-from django.core.paginator import Paginator
+from django.core.paginator import Paginator,PageNotAnInteger,EmptyPage
 
 
 # Create your views here.
@@ -99,9 +99,14 @@ def blog_detail(request,blog_id):
 def blogs(request):
     all_blogs = Blog.objects.all().order_by('-created_at')  # Fetch all blogs
 
-    paginator = Paginator(all_blogs, 2)  # Use all_blogs, not blogs
-    page_number = request.GET.get("page")  # Get page number from URL
-    blogs = paginator.get_page(page_number)  # Paginate the blogs
+    paginator = Paginator(all_blogs, 2)  
+    page_number = request.GET.get("page")  
+    try:
+        blogs = paginator.page(page_number)  # Get the blogs for the requested page
+    except PageNotAnInteger:
+        blogs = paginator.page(1)
+    except EmptyPage:
+            blogs = paginator.page(paginator.num_pages)
 
     context = {
         "blogs": blogs,  # Use the paginated blogs
